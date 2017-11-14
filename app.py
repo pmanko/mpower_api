@@ -17,7 +17,7 @@ patients = [
 ]
 
 
-@app.route('/')
+@app.route('/hello')
 def hello():
     return 'Welcome to mPOWEr!'
 
@@ -26,4 +26,4 @@ def get_tasks():
     return jsonify({'patients': patients})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
