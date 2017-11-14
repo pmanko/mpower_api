@@ -3,9 +3,9 @@ services:
   web:
     build: .
     ports:
-     - "5000:5000"
+     - "8080:8080"
     volumes:
-     - /opt/docker-compose-mysql:/counter_app
+     - .:/code
     links:
      - db:mysql
     container_name: mpower_api_app_1
