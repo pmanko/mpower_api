@@ -3,7 +3,7 @@ services:
   web:
     build: .
     ports:
-     - "8080:8080"
+     - "8080:5000"
     volumes:
      - .:/code
     links:
@@ -20,3 +20,4 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mpower_api
+
