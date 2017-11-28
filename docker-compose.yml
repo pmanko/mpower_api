@@ -1,23 +1,26 @@
 version: '3'
 services:
   web:
-    build: .
+    build:
+      context: ./app
+      dockerfile: DockerFile
     ports:
      - "8080:5000"
     volumes:
-     - .:/code
+     - .app/app:/code
     links:
      - db:mysql
     container_name: mpower_api_app_1
     depends_on:
      - db
   db:
-    image: mysql:5.7
-    # volumes:
-    #   - db_data:/var/lib/mysql
     restart: always
+    image: mysql:5.7
+    volumes:
+      - ./mysql_data:/var/lib/mysql
     container_name: mpower_api_db_1
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mpower_api
-
+      MYSQL_USER: mpower
+      MYSQL_PASSWORD: mpower
