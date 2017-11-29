@@ -3,13 +3,13 @@ services:
   web:
     build:
       context: ./app
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     ports:
      - "8080:5000"
     volumes:
-     - .app/app:/code
+     - ./app:/webapp
     links:
-     - db:mysql
+     - db
     container_name: mpower_api_app_1
     depends_on:
      - db
