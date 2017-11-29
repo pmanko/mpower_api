@@ -6,13 +6,13 @@ app = Flask(__name__)
 patients = [
     {
         'id': 1,
-        'first_name': 'Piotr',
-        'last_name': 'Mankowski'
-    },
-    {
-        'id': 2,
-        'first_name': 'Bob',
-        'last_name': 'Dole'
+        'MRN': 123,
+        'first_name': 'Patient',
+        'last_name': 'One',
+        'phone1': '9081111111',
+        'consent_checked': 1,
+        'gender': 'F',
+        'birthdate': '1984-12-11'
     }
 ]
 
@@ -21,9 +21,9 @@ patients = [
 def hello():
     return 'Welcome to mPOWEr!'
 
-@app.route('/api/v1.0/patients', methods=['GET'])
+@app.route('/api/v1.0/patients/1', methods=['GET'])
 def get_tasks():
-    return jsonify({'patients': patients})
+    return jsonify(patients[0])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
