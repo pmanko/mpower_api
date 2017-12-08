@@ -1,13 +1,18 @@
-version: '3'
+version: '3.3'
 services:
   web:
+    restart: always
     build:
       context: ./app
       dockerfile: Dockerfile
     ports:
      - "8080:5000"
     volumes:
-     - ./app:/webapp
+      - type: volume
+        source: mpowerapi-webapp
+        target: "/webapp"
+    networks:
+      - mpower
     links:
      - db
     container_name: mpower_api_app_1
@@ -16,11 +21,28 @@ services:
   db:
     restart: always
     image: mysql:5.7
+    # build:
+    #   context: ./db
+    #   dockerfile: Dockerfile
     volumes:
-      - ./mysql_data:/var/lib/mysql
+      - "./db/sql:/docker-entrypoint-initdb.d"
+      - type: volume
+        source: mpowerapi-db
+        target: /var/lib/mysql
+    networks:
+      - mpower
+    ports:
+      - "6603:3306"
     container_name: mpower_api_db_1
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mpower_api
       MYSQL_USER: mpower
       MYSQL_PASSWORD: mpower
+
+volumes:
+  mpowerapi-webapp:
+  mpowerapi-db:
+
+networks:
+  mpower:

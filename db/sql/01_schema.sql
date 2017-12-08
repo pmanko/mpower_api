@@ -19,12 +19,14 @@
 CREATE DATABASE IF NOT EXISTS `mpower_api`;
 GRANT ALL ON `mpower_api`.* TO 'mpower'@'%' ;
 
-FLUSH PRIVILEGES
+FLUSH PRIVILEGES;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+USE `mpower_api`;
 
 /* Initial Subset of Tables: Clinics, Sites, Patients, Users*/
 DROP TABLE IF EXISTS `clinics`;

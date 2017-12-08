@@ -14,7 +14,7 @@ patients = [
         'first_name': 'Bob',
         'last_name': 'Dole'
     }
-]
+    ]
 
 
 @app.route('/hello')
@@ -26,4 +26,4 @@ def get_tasks():
     return jsonify({'patients': patients})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True, port=80)
