@@ -9,9 +9,9 @@ app = Flask(__name__) #, instance_relative_config=True)
 #     app.config.from_pyfile('flask.cfg')
 
 app.config.from_object('config')
+
 app.secret_key = '12345678'
 
 db = SQLAlchemy(app)
 
-
-from project import views, models
+from app import views, models

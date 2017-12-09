@@ -1,6 +1,6 @@
 from flask import render_template, make_response, jsonify, flash, redirect, url_for, request
 from app import app, db
-prom app.models import Patient
+from app.models import Patient
 
 @app.route('/hello')
 def hello():

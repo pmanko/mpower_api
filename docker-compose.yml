@@ -14,10 +14,13 @@ services:
     networks:
       - mpower
     links:
-     - db
+      - db
     container_name: mpower_api_app_1
     depends_on:
-     - db
+      - db
+    environment:
+      WAIT_HOSTS: mysql:3306
+    #command: ['/wait-for-db.sh', "db:3306", "--", "python", "run.py" ]
   db:
     restart: always
     image: mysql:5.7
@@ -32,13 +35,17 @@ services:
     networks:
       - mpower
     ports:
-      - "6603:3306"
+      - "3306:3306"
     container_name: mpower_api_db_1
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mpower_api
       MYSQL_USER: mpower
       MYSQL_PASSWORD: mpower
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+    #   timeout: 20s
+    #   retries: 10
 
 volumes:
   mpowerapi-webapp:
