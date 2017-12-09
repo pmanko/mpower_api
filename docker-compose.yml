@@ -3,7 +3,7 @@ services:
   web:
     restart: always
     build:
-      context: ./app
+      context: ./webapp
       dockerfile: Dockerfile
     ports:
      - "8080:5000"

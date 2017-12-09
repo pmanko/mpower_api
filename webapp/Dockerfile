@@ -5,4 +5,4 @@ VOLUME /webapp
 COPY requirements.txt /webapp/
 RUN pip install -r requirements.txt
 COPY . /webapp/
-CMD ["python", "app.py"]
+CMD ["python", "run.py"]
