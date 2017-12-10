@@ -11,19 +11,19 @@ services:
       - type: volume
         source: mpowerapi-webapp
         target: "/webapp"
-    networks:
-      - mpower
     links:
       - db
-    container_name: mpower_api_app_1
+    container_name: mpower-app
     depends_on:
       - db
     environment:
-      WAIT_HOSTS: mysql:3306
+      WAIT_HOSTS: db:3306
+      WAIT_BEFORE_HOSTS: 10
     #command: ['/wait-for-db.sh', "db:3306", "--", "python", "run.py" ]
   db:
     restart: always
     image: mysql:5.7
+    hostname: db
     # build:
     #   context: ./db
     #   dockerfile: Dockerfile
@@ -32,11 +32,9 @@ services:
       - type: volume
         source: mpowerapi-db
         target: /var/lib/mysql
-    networks:
-      - mpower
     ports:
       - "3306:3306"
-    container_name: mpower_api_db_1
+    container_name: mpower-db
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mpower_api
@@ -50,6 +48,3 @@ services:
 volumes:
   mpowerapi-webapp:
   mpowerapi-db:
-
-networks:
-  mpower:
