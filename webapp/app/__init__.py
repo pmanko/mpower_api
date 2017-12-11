@@ -8,10 +8,13 @@ app = Flask(__name__) #, instance_relative_config=True)
 # else:
 #     app.config.from_pyfile('flask.cfg')
 
-app.config.from_object('config')
+# Config
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://mpower:mpower@db/mpower_api'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = '12345678'
 
 db = SQLAlchemy(app)
 
-from app import views, models
+from app import routes, models, views

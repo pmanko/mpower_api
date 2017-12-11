@@ -8,9 +8,7 @@ services:
     ports:
      - "8080:5000"
     volumes:
-      - type: volume
-        source: mpowerapi-webapp
-        target: "/webapp"
+      - "./webapp:/usr/src/app:ro"
     links:
       - db
     container_name: mpower-app
@@ -19,7 +17,8 @@ services:
     environment:
       WAIT_HOSTS: db:3306
       WAIT_BEFORE_HOSTS: 10
-    #command: ['/wait-for-db.sh', "db:3306", "--", "python", "run.py" ]
+      FLASK_APP: "app.py"
+      MODE: 'dev'
   db:
     restart: always
     image: mysql:5.7
@@ -46,5 +45,5 @@ services:
     #   retries: 10
 
 volumes:
-  mpowerapi-webapp:
+  mpowerapi-app:
   mpowerapi-db:
