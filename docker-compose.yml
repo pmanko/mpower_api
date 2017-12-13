@@ -7,7 +7,7 @@ services:
     ports:
      - "8080:5000"
     volumes:
-      - "./webapp:/usr/src/app:ro"
+      - "./webapp/mpowerapi:/usr/src/app:ro"
     links:
       - mpower-db
       - app-db
@@ -20,7 +20,7 @@ services:
     environment:
       WAIT_HOSTS: app-db:3306, mpower-db:3306
       WAIT_BEFORE_HOSTS: 10
-      FLASK_APP: "app.py"
+      FLASK_APP: "mpowerapi.factory:create_app()"
       FLASK_DEBUG: 1
       MODE: 'dev'
     networks:

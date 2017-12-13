@@ -1,12 +1,9 @@
-from flask import render_template, make_response, jsonify, flash, redirect, url_for, request
-from . import app
-from app.models import Patient, User, db
-
+from flask import Blueprint, render_template, make_response, jsonify, flash, redirect, url_for, request, current_app
+from mpowerapi.models import *
 
 @app.route('/api/v1.0/patients')
 def patient_index():
     return jsonify(patients=[i.serialize for i in Patient.query.all()])
-
 
 @app.route('/api/v1.0/patients/<int:id>')
 def patient(id):
