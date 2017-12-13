@@ -1,29 +1,30 @@
 version: '3.3'
 services:
   web:
-    restart: always
     build:
       context: ./webapp
       dockerfile: Dockerfile
     ports:
      - "8080:5000"
     volumes:
-      - type: volume
-        source: mpowerapi-webapp
-        target: "/webapp"
-    networks:
-      - mpower
+      - "./webapp:/usr/src/app:ro"
     links:
       - db
-    container_name: mpower_api_app_1
+    container_name: mpower-app
+    stdin_open: true
+    tty: true
     depends_on:
       - db
     environment:
-      WAIT_HOSTS: mysql:3306
-    #command: ['/wait-for-db.sh', "db:3306", "--", "python", "run.py" ]
+      WAIT_HOSTS: db:3306
+      WAIT_BEFORE_HOSTS: 10
+      FLASK_APP: "app.py"
+      FLASK_DEBUG: 1
+      MODE: 'dev'
   db:
     restart: always
     image: mysql:5.7
+    hostname: db
     # build:
     #   context: ./db
     #   dockerfile: Dockerfile
@@ -32,11 +33,9 @@ services:
       - type: volume
         source: mpowerapi-db
         target: /var/lib/mysql
-    networks:
-      - mpower
     ports:
       - "3306:3306"
-    container_name: mpower_api_db_1
+    container_name: mpower-db
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mpower_api
@@ -48,8 +47,5 @@ services:
     #   retries: 10
 
 volumes:
-  mpowerapi-webapp:
+  mpowerapi-app:
   mpowerapi-db:
-
-networks:
-  mpower:
