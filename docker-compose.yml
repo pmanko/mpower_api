@@ -1,7 +1,6 @@
 version: '3.3'
 services:
   web:
-    restart: always
     build:
       context: ./webapp
       dockerfile: Dockerfile
@@ -12,12 +11,15 @@ services:
     links:
       - db
     container_name: mpower-app
+    stdin_open: true
+    tty: true
     depends_on:
       - db
     environment:
       WAIT_HOSTS: db:3306
       WAIT_BEFORE_HOSTS: 10
       FLASK_APP: "app.py"
+      FLASK_DEBUG: 1
       MODE: 'dev'
   db:
     restart: always

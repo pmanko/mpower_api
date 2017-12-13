@@ -16,10 +16,10 @@ patients = [
     }
     ]
 
-# 
-# @app.route('/hello')
-# def hello():
-#     return 'Welcome to mPOWEr!'
+
+@app.route('/hello')
+def hello():
+    return 'Welcome to mPOWEr!'
 
 @app.route('/api/v1.0/patients', methods=['GET'])
 def get_tasks():

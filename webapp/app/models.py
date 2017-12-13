@@ -1,9 +1,79 @@
-from app import db
+from . import app
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+
+from sqlalchemy import create_engine, MetaData, Table, Column, ForeignKey
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy import create_engine
+from sqlalchemy import inspect
+
+# engine = create_engine('mysql+pymysql://mpower:mpower@db/mpower_api', pool_recycle=3600)
+# session = scoped_session(sessionmaker(autocommit=False,
+#                                          autoflush=False,
+#                                          bind=engine))
+#
+#
+# metadata = MetaData()
+#
+# metadata.reflect(engine, only=['users', 'patients', 'clinics', 'sites'])
+#
+# Base = automap_base(metadata=metadata)
+#
+# Base.prepare()
+
+db = SQLAlchemy(app)
+#User = Base.classes.users
+
+# for u in session.query(User):
+#     print(u)
 
 db.Model.metadata.reflect(db.engine) #change to (db.engine)
 
-class Patient(db.Model):
+class SerializeMixin(object):
+    @property
+    def serialize(self):
+       """Return object data in easily serializeable format"""
+
+       serialized = {}
+
+       for key in inspect(self.__class__).columns.keys():
+           serialized[key] = getattr(self, key)
+
+       return serialized
+
+
+class Patient(SerializeMixin, db.Model):
     __table__ = db.Model.metadata.tables['patients']
+
     def __repr__(self):
-        return self.MRN
+        return self.serialize
+
+    # @property
+    # def serialize(self):
+    #    """Return object data in easily serializeable format"""
+    #
+    #    serialized = {}
+    #
+    #    for key in inspect(self.__class__).columns.keys():
+    #        serialized[key] = getattr(self, key)
+    #
+    #    return serialized
+
+class User(SerializeMixin, db.Model):
+    __table__ = db.Model.metadata.tables['users']
+
+    def __repr__(self):
+        return self.serialize
+
+    # @property
+    # def serialize(self):
+    #    """Return object data in easily serializeable format"""
+    #
+    #    serialized = {}
+    #
+    #    for key in inspect(self.__class__).columns.keys():
+    #        serialized[key] = getattr(self, key)
+    #
+    #    return serialized

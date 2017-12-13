@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__) #, instance_relative_config=True)
 
@@ -15,6 +14,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = '12345678'
 
-db = SQLAlchemy(app)
-
-from app import routes, models, views
+from app import routes, models, views #, db
