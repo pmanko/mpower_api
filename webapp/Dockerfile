@@ -5,6 +5,6 @@ RUN chmod +x /wait
 
 # CMD /wait && python app.py
 
-CMD /wait && python -m flask run --host=0.0.0.0 && bash
+CMD /wait && python -m flask run --host=0.0.0.0 
 
 # CMD /wait && gunicorn --config=gunicorn.py app:app

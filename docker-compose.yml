@@ -9,43 +9,62 @@ services:
     volumes:
       - "./webapp:/usr/src/app:ro"
     links:
-      - db
+      - mpower-db
+      - app-db
     container_name: mpower-app
     stdin_open: true
     tty: true
     depends_on:
-      - db
+      - mpower-db
+      - app-db
     environment:
-      WAIT_HOSTS: db:3306
+      WAIT_HOSTS: app-db:3306, mpower-db:3306
       WAIT_BEFORE_HOSTS: 10
       FLASK_APP: "app.py"
       FLASK_DEBUG: 1
       MODE: 'dev'
-  db:
+    networks:
+      - mpowerapi
+  mpower-db:
     restart: always
     image: mysql:5.7
-    hostname: db
-    # build:
-    #   context: ./db
-    #   dockerfile: Dockerfile
+    hostname: mpower-db
     volumes:
       - "./db/sql:/docker-entrypoint-initdb.d"
       - type: volume
-        source: mpowerapi-db
+        source: mpower-db
         target: /var/lib/mysql
     ports:
       - "3306:3306"
     container_name: mpower-db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mpower_api
+      MYSQL_DATABASE: mpower
       MYSQL_USER: mpower
       MYSQL_PASSWORD: mpower
-    # healthcheck:
-    #   test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-    #   timeout: 20s
-    #   retries: 10
-
+    networks:
+      - mpowerapi
+  app-db:
+    restart: always
+    image: mysql:5.7
+    hostname: app-db
+    volumes:
+      - type: volume
+        source: mpowerapi-db
+        target: /var/lib/mysql
+    #ports:
+      #- "3306:3306"
+    container_name: app-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mpowerapi
+      MYSQL_USER: mpowerapi
+      MYSQL_PASSWORD: mpowerapi
+    networks:
+      - mpowerapi
 volumes:
   mpowerapi-app:
+  mpower-db:
   mpowerapi-db:
+networks:
+  mpowerapi:

@@ -24,14 +24,16 @@ import json
 # Base = automap_base(metadata=metadata)
 #
 # Base.prepare()
-
-db = SQLAlchemy(app)
 #User = Base.classes.users
 
 # for u in session.query(User):
 #     print(u)
 
-db.Model.metadata.reflect(db.engine) #change to (db.engine)
+
+db = SQLAlchemy(app)
+
+# Reflect only the structure of the mPOWEr db.
+db.reflect(bind='mpower')
 
 class SerializeMixin(object):
     # def __repr__(self):
@@ -50,9 +52,11 @@ class SerializeMixin(object):
 
 
 class Patient(SerializeMixin, db.Model):
+    __bind_key__ = 'mpower'
     __table__ = db.Model.metadata.tables['patients']
 
 class User(SerializeMixin, db.Model):
+    __bind_key__ = 'mpower'
     __table__ = db.Model.metadata.tables['users']
 
     patient = relationship('Patient', backref='user', lazy=True, primaryjoin="User.id == foreign(Patient.consenter_id)")

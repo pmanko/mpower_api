@@ -16,8 +16,8 @@
 #     mysql -u root -p < /docker-entrypoint-initdb.d/createdb.sql
 #
 
-CREATE DATABASE IF NOT EXISTS `mpower_api`;
-GRANT ALL ON `mpower_api`.* TO 'mpower'@'%' ;
+CREATE DATABASE IF NOT EXISTS `mpower`;
+GRANT ALL ON `mpower`.* TO 'mpower'@'%' ;
 
 FLUSH PRIVILEGES;
 
@@ -26,7 +26,7 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-USE `mpower_api`;
+USE `mpower`;
 
 /* Initial Subset of Tables: Clinics, Sites, Patients, Users*/
 DROP TABLE IF EXISTS `clinics`;
