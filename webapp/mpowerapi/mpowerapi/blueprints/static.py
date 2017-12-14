@@ -1,13 +1,17 @@
-@app.route('/')
+from flask import Blueprint, make_response, jsonify, flash, redirect, url_for, request, current_app
+
+static = Blueprint('static', __name__)
+
+@static.route('/')
 def index():
     return "Hello, World!"
 
-@app.route('/index')
+@static.route('/index')
 
-@app.route('/hello')
+@static.route('/hello')
 def hello():
     return 'Welcome to mPOWEr!'
 
-@app.route('/patientss')
+@static.route('/patientss')
 def patients():
     return "Patient List!"

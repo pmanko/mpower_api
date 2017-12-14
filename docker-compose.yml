@@ -20,7 +20,8 @@ services:
     environment:
       WAIT_HOSTS: app-db:3306, mpower-db:3306
       WAIT_BEFORE_HOSTS: 10
-      FLASK_APP: "mpowerapi.factory:create_app()"
+      #FLASK_APP: "mpowerapi.factory:create_app()"
+      FLASK_APP: "mpowerapi_app.py"
       FLASK_DEBUG: 1
       MODE: 'dev'
     networks:

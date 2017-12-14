@@ -4,7 +4,7 @@ from sqlalchemy import inspect
 
 import json
 
-db = SQLAlchemy()
+from .db import db
 
 class SerializeMixin(object):
     # def __repr__(self):
@@ -25,9 +25,11 @@ class SerializeMixin(object):
 class Patient(SerializeMixin, db.Model):
     __bind_key__ = 'mpower'
     __table__ = db.Model.metadata.tables['patients']
+    #__tablename__ = 'patients'
 
 class User(SerializeMixin, db.Model):
     __bind_key__ = 'mpower'
     __table__ = db.Model.metadata.tables['users']
+    #__tablename__ = 'users'
 
     patient = relationship('Patient', backref='user', lazy=True, primaryjoin="User.id == foreign(Patient.consenter_id)")

@@ -4,31 +4,36 @@ from flask import Flask, g
 
 
 def create_app(config=None):
-    app = Flask('mpower_api')
+    app = Flask('mpowerapi')
 
     app.config.update(dict(
-        Debug=True
-        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://mpowerapi:mpowerapi@app-db:3306/mpowerapi'
-        SQLALCHEMY_TRACK_MODIFICATIONS = False
-        SQLALCHEMY_POOL_RECYCLE = 60
+        Debug=True,
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://mpowerapi:mpowerapi@app-db:3306/mpowerapi',
+        SQLALCHEMY_TRACK_MODIFICATIONS = False,
+        SQLALCHEMY_POOL_RECYCLE = 60,
         SQLALCHEMY_BINDS = {
             'mpower':        'mysql+pymysql://mpower:mpower@mpower-db:3306/mpower',
         }
     ))
-    app.config.update(config or {})
+    #app.config.update(config or {})
     app.config.from_envvar('MPOWERAPI_SETTINGS', silent=True)
 
     app.secret_key = '12345678'
 
-    from mpowerapi import db
+    from mpowerapi.db import db
     db.init_app(app)
 
     # Reflect only the structure of the mPOWEr db.
-    db.reflect(bind='mpower')
+    with app.app_context():
+        db.reflect(bind='mpower')
 
-    from mpowerapi.blueprints import mpowerapi, static
-    app.register_blueprint(mpowerapi, url_prefix='/api/v1.0/')
-    app.register_blueprint(static, url_prefix='/')
+    from mpowerapi.models import Patient, User
+
+    from mpowerapi.blueprints.api import api
+    from mpowerapi.blueprints.static import static
+
+    app.register_blueprint(api, url_prefix='/api/v1.0')
+    app.register_blueprint(static, url_prefix='')
 
     # register_cli(app)
     # register_teardowns(app)
