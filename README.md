@@ -38,3 +38,24 @@ mysql -u root -p root -h localhost -P 6603
 `docker-compose down` removes all related volumes, networks, and containers, so we start at a clean slate.
 
 `docker-compose up -d --build db` builds and starts only the db container.
+
+## Development
+Common commands:
+```
+cd <project_dir>
+
+# Re-build and re-start containers, including db init:
+docker-compose down -v
+docker-compose up -d --build
+
+# Windows-specific: Ensures container is notified of changes by Host inside volume
+# Run this command in PowerShell
+# See: https://github.com/merofeev/docker-windows-volume-watcher
+Start-Process -NoNewWindow docker-volume-watcher mysite
+
+# Start interactive shell connected to dev container
+docker exec -it mpower-app bash
+
+# Run flask shell inside interactive shell
+> flask shell
+```

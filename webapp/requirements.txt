@@ -1,7 +1,0 @@
-flask
-gunicorn
-PyMySQL
-flask-sqlalchemy
-flask-script
-nose2
-coverage
