@@ -8,6 +8,7 @@ setup(
         'flask',
         'PyMySQL',
         'flask-sqlalchemy',
+        'Flask-Migrate'
     ],
     setup_requires=[
         'pytest-runner',

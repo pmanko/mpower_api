@@ -7,7 +7,7 @@ services:
     ports:
      - "8080:5000"
     volumes:
-      - "./webapp/mpowerapi:/usr/src/app:ro"
+      - "./webapp/mpowerapi:/usr/src/app"
     links:
       - mpower-db
       - app-db
