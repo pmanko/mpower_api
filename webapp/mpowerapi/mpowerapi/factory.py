@@ -1,5 +1,7 @@
 import os
 from flask import Flask, g
+from flask_cors import CORS
+
 # from app.blueprints.mpowerapi import init_db
 
 
@@ -15,6 +17,9 @@ def create_app(config=None):
             'mpower':        'mysql+pymysql://mpower:mpower@mpower-db:3306/mpower',
         }
     ))
+
+    CORS(app)
+    
     #app.config.update(config or {})
     app.config.from_envvar('MPOWERAPI_SETTINGS', silent=True)
 

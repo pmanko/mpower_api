@@ -13,8 +13,8 @@ def patient(id):
 
 @api.route('/users')
 def user_index():
-    return jsonify(users=[i.serialize for i in User.query.all()])
+    return jsonify(users=[i.serialize for i in MpowerUser.query.all()])
 
 @api.route('/users/<int:id>')
 def user(id):
-    return jsonify(User.query.filter_by(id=id).first().serialize)
+    return jsonify(MpowerUser.query.filter_by(id=id).first().serialize)
