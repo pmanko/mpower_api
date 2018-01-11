@@ -32,7 +32,7 @@ class MpowerUser(SerializeMixin, db.Model):
     __table__ = db.Model.metadata.tables['users']
     #__tablename__ = 'users'
 
-    patient = relationship('Patient', backref='user', lazy=True, primaryjoin="User.id == foreign(Patient.consenter_id)")
+    # patient = relationship('Patient', backref='user', lazy=True, primaryjoin="User.id == foreign(Patient.consenter_id)")
 
 # Flask-Oauthlib Server Setup
 class User(db.Model):

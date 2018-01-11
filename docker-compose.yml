@@ -35,8 +35,8 @@ services:
       - type: volume
         source: mpower-db
         target: /var/lib/mysql
-    ports:
-      - "3306:3306"
+        #    ports:
+        #- "3306:3306"
     container_name: mpower-db
     environment:
       MYSQL_ROOT_PASSWORD: root
