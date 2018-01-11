@@ -1,8 +1,9 @@
 import os
 from flask import Flask, g
 from flask_cors import CORS
-
-# from app.blueprints.mpowerapi import init_db
+from flask_oauthlib.contrib.oauth2 import bind_sqlalchemy
+from .oauth2 import oauth2
+from .server import current_user, User, Client, Grant, Token
 
 
 def create_app(config=None):
@@ -19,7 +20,7 @@ def create_app(config=None):
     ))
 
     CORS(app)
-    
+
     #app.config.update(config or {})
     app.config.from_envvar('MPOWERAPI_SETTINGS', silent=True)
 
@@ -32,42 +33,28 @@ def create_app(config=None):
     with app.app_context():
         db.reflect(bind='mpower')
 
-    from mpowerapi.models import Patient, User
+    from mpowerapi.models import Patient, MpowerUser
 
     from mpowerapi.blueprints.api import api
     from mpowerapi.blueprints.static import static
+    from mpowerapi.blueprints.oauth import oauth
 
     app.register_blueprint(api, url_prefix='/api/v1.0')
     app.register_blueprint(static, url_prefix='')
+    app.register_blueprint(oauth, url_prefix='/oauth')
+
+    oauth2.init_app(app)
+    bind_sqlalchemy(oauth2, db.session, user=User, token=Token,
+                        client=Client, grant=Grant, current_user=current_user)
+
 
     # register_cli(app)
     # register_teardowns(app)
 
-    return app
 
-#
-# def register_blueprints(app):
-#     """Register all blueprint modules
-#     Reference: Armin Ronacher, "Flask for Fun and for Profit" PyBay 2016.
-#     """
-#     for name in find_modules('mpowerapi.blueprints'):
-#         mod = import_string(name)
-#         if hasattr(mod, 'bp'):
-#             app.register_blueprint(mod.bp)
-#     return None
-#
-#
-# def register_cli(app):
-#     @app.cli.command('initdb')
-#     def initdb_command():
-#         """Creates the database tables."""
-#         init_db()
-#         print('Initialized the database.')
-#
-#
-# def register_teardowns(app):
-#     @app.teardown_appcontext
-#     def close_db(error):
-#         """Closes the database again at the end of the request."""
-#         if hasattr(g, 'sqlite_db'):
-#             g.sqlite_db.close()
+    # @app.before_request
+    # def load_current_user():
+    #     user = User.query.get(1)
+    #     g.user = user
+
+    return app

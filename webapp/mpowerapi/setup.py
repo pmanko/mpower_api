@@ -8,7 +8,9 @@ setup(
         'flask',
         'PyMySQL',
         'flask-sqlalchemy',
-        'Flask-Migrate'
+        'Flask-Migrate',
+        'flask-cors',
+        'Flask-OAuthlib'
     ],
     setup_requires=[
         'pytest-runner',
