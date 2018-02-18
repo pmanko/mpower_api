@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, make_response, jsonify, flash, redirect, url_for, request, current_app
-from mpowerapi.models import *
-from mpowerapi.oauth2 import oauth2
+from tbapi.models import *
+from tbapi.oauth2 import oauth2
 
 oauth = Blueprint('oauth', __name__)
 

@@ -10,7 +10,7 @@
 #
 # # Config
 # # app.config['DEBUG'] = True
-# # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://mpower:mpower@db/mpower_api'
+# # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://mpower:mpower@db/tb-api'
 # # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # # app.config['BASEDIR'] = os.path.abspath(os.path.dirname(__file__))
 # app.config.from_object('config')

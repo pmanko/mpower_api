@@ -58,9 +58,9 @@ services:
     container_name: tbapp-db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mpowerapi
-      MYSQL_USER: mpowerapi
-      MYSQL_PASSWORD: mpowerapi
+      MYSQL_DATABASE: tbapi
+      MYSQL_USER: tbapi
+      MYSQL_PASSWORD: tbapi
     networks:
       - tbapi
 volumes:
