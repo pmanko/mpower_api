@@ -7,25 +7,25 @@ services:
     ports:
      - "8080:5000"
     volumes:
-      - "./webapp/mpowerapi:/usr/src/app"
+      - "./webapp/tb:/usr/src/app"
     links:
       - mpower-db
-      - app-db
-    container_name: mpower-app
+      - tbapp-db
+    container_name: tb-app
     stdin_open: true
     tty: true
     depends_on:
       - mpower-db
-      - app-db
+      - tbapp-db
     environment:
-      WAIT_HOSTS: app-db:3306, mpower-db:3306
+      WAIT_HOSTS: app-db:3306, tb-db:3306
       WAIT_BEFORE_HOSTS: 10
-      #FLASK_APP: "mpowerapi.factory:create_app()"
-      FLASK_APP: "mpowerapi_app.py"
+      #FLASK_APP: "tbapi.factory:create_app()"
+      FLASK_APP: "tbapi_app.py"
       FLASK_DEBUG: 1
       MODE: 'dev'
     networks:
-      - mpowerapi
+      - tbapi
   mpower-db:
     restart: always
     image: mysql:5.7
@@ -44,28 +44,28 @@ services:
       MYSQL_USER: mpower
       MYSQL_PASSWORD: mpower
     networks:
-      - mpowerapi
-  app-db:
+      - tbapi
+  tbapp-db:
     restart: always
     image: mysql:5.7
     hostname: app-db
     volumes:
       - type: volume
-        source: mpowerapi-db
+        source: tbapp-db
         target: /var/lib/mysql
     #ports:
       #- "3306:3306"
-    container_name: app-db
+    container_name: tbapp-db
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mpowerapi
       MYSQL_USER: mpowerapi
       MYSQL_PASSWORD: mpowerapi
     networks:
-      - mpowerapi
+      - tbapi
 volumes:
-  mpowerapi-app:
+  tbapi-app:
   mpower-db:
-  mpowerapi-db:
+  tbapp-db:
 networks:
-  mpowerapi:
+  tbapi:

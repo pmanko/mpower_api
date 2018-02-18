@@ -10,8 +10,5 @@ def index():
 
 @static.route('/hello')
 def hello():
-    return 'Welcome to mPOWEr!'
+    return 'Welcome to TB API!'
 
-@static.route('/patientss')
-def patients():
-    return "Patient List!"

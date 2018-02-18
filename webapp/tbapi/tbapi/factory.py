@@ -7,11 +7,11 @@ from .server import current_user, User, Client, Grant, Token
 
 
 def create_app(config=None):
-    app = Flask('mpowerapi')
+    app = Flask('tbapi')
 
     app.config.update(dict(
         Debug=True,
-        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://mpowerapi:mpowerapi@app-db:3306/mpowerapi',
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://tbapi:tbapi@app-db:3306/tbapi',
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
         SQLALCHEMY_POOL_RECYCLE = 60,
         SQLALCHEMY_BINDS = {
@@ -22,22 +22,22 @@ def create_app(config=None):
     CORS(app)
 
     #app.config.update(config or {})
-    app.config.from_envvar('MPOWERAPI_SETTINGS', silent=True)
+    app.config.from_envvar('TBAPI_SETTINGS', silent=True)
 
     app.secret_key = '12345678'
 
-    from mpowerapi.db import db
+    from tbapi.db import db
     db.init_app(app)
 
     # Reflect only the structure of the mPOWEr db.
     with app.app_context():
         db.reflect(bind='mpower')
 
-    from mpowerapi.models import Patient, MpowerUser
+    from tbapi.models import Patient, MpowerUser
 
-    from mpowerapi.blueprints.api import api
-    from mpowerapi.blueprints.static import static
-    from mpowerapi.blueprints.oauth import oauth
+    from tbapi.blueprints.api import api
+    from tbapi.blueprints.static import static
+    from tbapi.blueprints.oauth import oauth
 
     app.register_blueprint(api, url_prefix='/api/v1.0')
     app.register_blueprint(static, url_prefix='')

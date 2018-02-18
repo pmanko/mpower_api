@@ -1,10 +1,10 @@
 import os
-from mpowerapi.factory import create_app
+from tbapi.factory import create_app
 from flask_migrate import Migrate
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
-from mpowerapi.models import db
+from tbapi.models import db
 
 migrate = Migrate(app, db)
 
