@@ -7,18 +7,18 @@ services:
     ports:
      - "8080:5000"
     volumes:
-      - "./webapp/tb:/usr/src/app"
+      - "./webapp/tbapi:/usr/src/app"
     links:
       - mpower-db
       - tbapp-db
-    container_name: tb-app
+    container_name: tb-api
     stdin_open: true
     tty: true
     depends_on:
       - mpower-db
       - tbapp-db
     environment:
-      WAIT_HOSTS: app-db:3306, tb-db:3306
+      WAIT_HOSTS: mpower-db:3306, tbapp-db:3306
       WAIT_BEFORE_HOSTS: 10
       #FLASK_APP: "tbapi.factory:create_app()"
       FLASK_APP: "tbapi_app.py"
@@ -40,7 +40,7 @@ services:
     container_name: mpower-db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mpower
+      MYSQL_DATABASE: mpower_demo
       MYSQL_USER: mpower
       MYSQL_PASSWORD: mpower
     networks:

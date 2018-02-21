@@ -10,7 +10,8 @@ setup(
         'flask-sqlalchemy',
         'Flask-Migrate',
         'flask-cors',
-        'Flask-OAuthlib'
+        'Flask-OAuthlib', 
+        'flask-bcrypt'
     ],
     setup_requires=[
         'pytest-runner',

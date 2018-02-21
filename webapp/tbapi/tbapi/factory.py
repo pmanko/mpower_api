@@ -15,7 +15,7 @@ def create_app(config=None):
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
         SQLALCHEMY_POOL_RECYCLE = 60,
         SQLALCHEMY_BINDS = {
-            'mpower':        'mysql+pymysql://mpower:mpower@mpower-db:3306/mpower',
+            'mpower':        'mysql+pymysql://mpower:mpower@mpower-db:3306/mpower_demo',
         }
     ))
 
@@ -28,6 +28,9 @@ def create_app(config=None):
 
     from tbapi.db import db
     db.init_app(app)
+
+    from tbapi.bcrypt import bcrypt
+    bcrypt.init_app(app)
 
     # Reflect only the structure of the mPOWEr db.
     with app.app_context():
